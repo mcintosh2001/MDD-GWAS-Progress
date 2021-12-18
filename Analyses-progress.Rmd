@@ -7,22 +7,46 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## SETUP
+First set up required libraries
+```{r echo=FALSE}
+library("tidyverse")
+library("readxl")
+require("ggrepel")
+```
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+## READ DATA from Excel Spreadsheet
+```{r echo=TRUE}
+gwasMDD <- read_excel(path = "MDD-GWAS.xlsx" )
 ```
 
 ## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+Plot NHits over time
+```{r}
+ggplot(gwasMDD, aes(x=Ncases,y=Nhits,label=fauthor)) +
+  theme(panel.background = element_rect(fill="white", 
+                                        color="white", 
+                                        linetype="solid"), 
+        panel.grid.major.y = element_line(colour = "grey"), 
+        panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()  ) +
+  
+  geom_point() +
+  geom_smooth(method = "loess", formula = (y~x), se=FALSE) +
+  
+  geom_label_repel(min.segment.length = 0.5,
+                   max.overlaps = Inf,
+                   label.size=0,
+                   label.padding=0.2,
+                   label.r=0.2,
+                   size=3) +
+coord_cartesian(xlim=c(0,500000), ylim=c(0, 500)) +
+  
+labs(title = "MDD GWAS Progress with Increasing Case Numbers",
+     subtitle=NULL,
+     x="Number of Depressed Cases",
+     y="Number of Significant Loci")
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
