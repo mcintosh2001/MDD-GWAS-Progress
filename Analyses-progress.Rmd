@@ -23,9 +23,9 @@ print()
 ```
 
 ## Including Plots
-Plot NHits over time
-```{r}
-ggplot(gwasMDD, aes(x=Ncases,y=Nhits,label=fauthor)) +
+Plot MDD GWAS NHits over time
+```{r echo = FALSE}
+p <- ggplot(gwasMDD, aes(x = Ncases, y = Nhits, label = fauthor)) +
   theme(panel.background = element_rect(fill="white", 
                                         color="white", 
                                         linetype="solid"), 
@@ -33,9 +33,12 @@ ggplot(gwasMDD, aes(x=Ncases,y=Nhits,label=fauthor)) +
         panel.border = element_blank(),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank()  ) +
-  scale_x_continuous(labels = label_number(suffix = "K", scale = 1e-3)) +
+  
+  scale_x_continuous(labels = label_number(suffix = "K", 
+                                           scale = 1e-3)) +
 
   geom_point() +
+  
   geom_smooth(method = "loess", formula = (y~x), se=FALSE) +
   
   geom_label_repel(min.segment.length = 0.5,
@@ -44,12 +47,16 @@ ggplot(gwasMDD, aes(x=Ncases,y=Nhits,label=fauthor)) +
                    label.padding=0.2,
                    label.r=0.2,
                    size=3) +
-coord_cartesian(xlim=c(0,500000), ylim=c(-100, 500)) +
+  
+coord_cartesian(xlim=c(0,500000), ylim=c(-10, 520)) +
   
 labs(title = "MDD GWAS Progress with Increasing Case Numbers",
      subtitle=NULL,
      x="Number of Depressed Cases",
      y="Number of Significant Loci") 
+
+print(p)
+ggsave("Hits.jpeg", plot = p)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
