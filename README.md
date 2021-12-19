@@ -2,4 +2,4 @@
 Progress in MDD GWAS
 Tried pushing and pulling
 
-![Alt text](hits.jpeg?raw=true "Title")
+![Alt text](Hits.jpeg?raw=true "Title")
