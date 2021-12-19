@@ -17,7 +17,8 @@ require("ggrepel")
 
 ## READ DATA from Excel Spreadsheet
 ```{r echo=TRUE}
-gwasMDD <- read_excel(path = "MDD-GWAS.xlsx" )
+gwasMDD <- read_excel(path = "MDD-GWAS.xlsx" ) %>%
+print()
 ```
 
 ## Including Plots
